@@ -405,3 +405,67 @@ Haz `push` y el frontend se actualizará automáticamente 🚀.
 ✅ **Despliegue automático con GitHub Actions**  
 
 ¡Listo! Tu aplicación está en producción en **Azure** 🎉.
+
+
+
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________________
+Aquí tienes un **frontend sencillo en React** que muestra una lista de productos obtenidos desde tu backend en **Spring Boot**.  
+
+### **Pasos para Crear el Frontend**
+1. **Crear un nuevo proyecto en React**
+   ```sh
+   npx create-react-app inventario-frontend
+   cd inventario-frontend
+   npm install axios
+   ```
+   
+2. **Actualizar `App.js`** con el siguiente código:  
+
+   ```jsx
+   import React, { useEffect, useState } from "react";
+   import axios from "axios";
+   import { Card, CardContent } from "@/components/ui/card";
+
+   const API_URL = "https://inventario-backend.azurewebsites.net/productos";
+
+   const App = () => {
+     const [productos, setProductos] = useState([]);
+
+     useEffect(() => {
+       axios.get(API_URL)
+         .then(response => setProductos(response.data))
+         .catch(error => console.error("Error al obtener productos:", error));
+     }, []);
+
+     return (
+       <div className="p-6">
+         <h1 className="text-2xl font-bold mb-4">Lista de Productos</h1>
+         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+           {productos.map((producto) => (
+             <Card key={producto.id} className="p-4 shadow-md">
+               <CardContent>
+                 <h2 className="text-xl font-semibold">{producto.nombre}</h2>
+                 <p className="text-gray-600">Precio: ${producto.precio}</p>
+                 <p className="text-gray-500">{producto.descripcion}</p>
+               </CardContent>
+             </Card>
+           ))}
+         </div>
+       </div>
+     );
+   };
+
+   export default App;
+   ```
+
+3. **Ejecutar el frontend**  
+   ```sh
+   npm start
+   ```
+
+Este código obtiene los productos desde tu backend desplegado en **Azure**, los muestra en tarjetas y maneja errores si la API no responde.  
+
+Cuando lo tengas listo, dime si necesitas mejoras o quieres agregar más funcionalidades. 🚀
